@@ -1,0 +1,10 @@
+node_modules
+build
+uploads
+
+.env
+.env.development
+# .env.test
+.env.production
+yarn-error.log
+package-lock.json

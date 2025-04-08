@@ -1,0 +1,121 @@
+openapi: 3.0.0
+paths:
+  /admin/survey/statistics/students:
+    get:
+      summary: Obtener estadísticas de encuestas por estudiantes del periodo actual.
+      description: Obtiene el numero de estudiantes que han respondido y no han respondido las encuestas del periodo actual.
+      tags:
+        - Admin
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    description: Codigo de respuesta.
+                  messageCode:
+                    type: string
+                    description: Codigo de respuesta en mensaje.
+                  data:
+                    type: object
+                    properties:
+                      totalStudents:
+                        type: integer
+                        description: Total de estudiantes.
+                      totalAnswered:
+                        type: integer
+                        description: Total de estudiantes que han respondido las encuestas.
+                      totalNotAnswered:
+                        type: integer
+                        description: Total de estudiantes que no han respondido las encuestas.
+                  message:
+                    type: string
+                    description: Mensaje de respuesta.
+        '500':
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    description: Codigo de respuesta.
+                  messageCode:
+                    type: string
+                    description: Codigo de respuesta en mensaje.
+                  data:
+                    type: object
+                  message:
+                    type: string
+                    description: Mensaje de respuesta.
+  /admin/upload/dbf:
+    post:
+      summary: Subir archivos DBF.
+      description: Sube un archivo DBF con los datos de los estudiantes, materias y docentes.
+      tags:
+        - Admin
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                DALUMN:
+                  type: string
+                  format: binary
+                  description: Archivo DALUMN.DBF.
+                DGRUPO:
+                  type: file
+                  format: binary
+                  description: Archivo DGRUPO.DBF.
+                DLISTA:
+                  type: file
+                  format: binary
+                  description: Archivo DLISTA.DBF.
+                DMATER:
+                  type: file
+                  format: binary
+                  description: Archivo DMATER.DBF.
+                DPERSO:
+                  type: file
+                  format: binary
+                  description: Archivo DPERSO.DBF.
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    description: Codigo de respuesta.
+                  messageCode:
+                    type: string
+                    description: Codigo de respuesta en mensaje.
+                  data:
+                    type: object
+                  message:
+                    type: string
+                    description: Mensaje de respuesta.
+        '500':
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    description: Codigo de respuesta.
+                  messageCode:
+                    type: string
+                    description: Codigo de respuesta en mensaje.
+                  data:
+                    type: object
+                  message:
+                    type: string
+                    description: Mensaje de respuesta.

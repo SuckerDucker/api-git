@@ -1,0 +1,228 @@
+openapi: 3.0.0
+paths:
+  /student/teacher:
+    get:
+      summary: Listar profesores del estudiante.
+      description: Lista los profesores del estudiante.
+      tags:
+        - Student
+      parameters:
+        - in: query
+          name: matricula
+          schema:
+            type: integer
+          required: true
+          description: Matricula del estudiante.
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    description: Codigo de respuesta.
+                  messageCode:
+                    type: string
+                    description: Codigo de respuesta en mensaje.
+                  data:
+                    type: object
+                    properties:
+                      teachers:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            courseId:
+                              type: integer
+                              description: Id del curso.
+                            surveyId:
+                              type: integer
+                              description: Id de la encuesta.
+                            status:
+                              type: integer
+                              description: Estado de la encuesta.
+                            subjectId:
+                              type: integer
+                              description: Id de la materia.
+                            subject:
+                              type: string
+                              description: Nombre de la materia.
+                            subjectKey:
+                              type: string
+                              description: Clave de la materia.
+                            group:
+                              type: string
+                              description: Grupo de la materia.
+                            teacherKey:
+                              type: integer
+                              description: Clave del profesor.
+                            teacher:
+                              type: string
+                              description: Nombre del profesor.
+                  message:
+                    type: string
+                    description: Mensaje de respuesta.
+        '500':
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    description: Codigo de respuesta.
+                  messageCode:
+                    type: string
+                    description: Codigo de respuesta en mensaje.
+                  data:
+                    type: object
+                  message:
+                    type: string
+                    description: Mensaje de respuesta.
+  /student/questions:
+    get:
+      summary:  Obtener preguntas de la encuesta.
+      description: Obtiene las preguntas de la encuesta.
+      tags:
+        - Student
+      parameters:
+        - in: query
+          name: surveyId
+          schema:
+            type: integer
+          required: true
+          description: Id de la encuesta.
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    description: Codigo de respuesta.
+                  messageCode:
+                    type: string
+                    description: Codigo de respuesta en mensaje.
+                  data:
+                    type: object
+                    properties:
+                      questions:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            idQuestion:
+                              type: integer
+                              description: Id de la pregunta.
+                            idQuestionnaire:
+                              type: integer
+                              description: Id del cuestionario.
+                            question:
+                              type: string
+                              description: Pregunta.
+                  message:
+                    type: string
+                    description: Mensaje de respuesta.
+        '500':
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    description: Codigo de respuesta.
+                  messageCode:
+                    type: string
+                    description: Codigo de respuesta en mensaje.
+                  data:
+                    type: object
+                  message:
+                    type: string
+                    description: Mensaje de respuesta.
+  /student/answers:
+    post:
+      summary: Guardar respuestas de la encuesta.
+      description: Guarda las respuestas de la encuesta.
+      tags:
+        - Student
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                surveyId:
+                  type: integer
+                  description: Id de la encuesta.
+                  required: true
+                courseId:
+                  type: integer
+                  description: Id del curso.
+                  required: true
+                comments:
+                  type: string
+                  description: Comentarios.
+                  required: false
+                answers:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      surveyId:
+                        type: integer
+                        description: Id de la encuesta.
+                        required: true
+                      questionnaireId:
+                        type: integer
+                        description: Id del cuestionario.
+                        required: true
+                      questionId:
+                        type: integer
+                        description: Id de la pregunta.
+                        required: true
+                      puntuation:
+                        type: integer
+                        description: Puntuación.
+                        required: true
+                    required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    description: Codigo de respuesta.
+                  messageCode:
+                    type: string
+                    description: Codigo de respuesta en mensaje.
+                  data:
+                    type: object
+                  message:
+                    type: string
+                    description: Mensaje de respuesta.
+        '500':
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    description: Codigo de respuesta.
+                  messageCode:
+                    type: string
+                    description: Codigo de respuesta en mensaje.
+                  data:
+                    type: object
+                  message:
+                    type: string
+                    description: Mensaje de respuesta.

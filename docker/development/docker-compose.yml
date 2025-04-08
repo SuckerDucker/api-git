@@ -1,0 +1,85 @@
+version: '3.8'
+
+name: eva-api-dev
+
+services:
+  frontend:
+    image: alex2117/eva-front
+    container_name: eva-api-front
+    depends_on:
+      - api
+    environment:
+      - VITE_BASE_URL=http://eva.com/api/v1/
+  
+  api:
+    container_name: eva-api-dev
+    build: 
+      context: ../../.
+      dockerfile: ./docker/api/Dockerfile
+    image: eva-api-dev
+    command:
+      - sh
+      - -c
+      - |
+        touch .env.development &&
+        echo -e 'DOCS_ENABLED=${DOCS_ENABLED}\nAUTH=${AUTH}\nDB_HOST=mysql\nDB_NAME=${DB_NAME}\nDB_USER=${DB_USER}\nDB_PASS=${DB_PASS}\nDB_PORT=${DB_PORT}\nJWT_KEY_UPQROO=${JWT_KEY_UPQROO}\nORIGIN_URL_FRONT=${ORIGIN_URL_FRONT}\nTOKEN_EXPIRATION=${TOKEN_EXPIRATION}' > .env.development
+        yarn start
+    depends_on:
+      mysql:
+        condition: service_healthy
+    environment:
+      - NODE_ENV=development
+      - DOCKER=true
+
+  phpmyadmin:
+    container_name: eva-phpmyadmin-dev
+    image: phpmyadmin
+    environment:
+      - PMA_HOST=mysql
+      - PMA_PORT=3306
+      - PMA_USER=${DB_USER}
+      - PMA_PASSWORD=${DB_PASS}
+    depends_on:
+      mysql:
+        condition: service_healthy
+
+  mysql:
+    container_name: eva-mysql-dev
+    image: alex2117/eva-db
+    ports:
+      - ${DB_PORT}:3306
+    environment:
+      - MYSQL_ROOT_PASSWORD=${DB_PASS}
+      - MYSQL_DATABASE=${DB_NAME}
+    volumes:
+      - mysql:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysql", "-h", "localhost", "-u${DB_USER}", "-p${DB_PASS}", "-e", "SELECT 1 FROM information_schema.tables WHERE table_schema = '${DB_NAME}' LIMIT 1;"]
+      interval: 15s
+      timeout: 5s
+      retries: 10
+
+  nginx:
+    build: ../nginx
+    container_name: nginx-api-dev
+    expose:
+      - 80
+    depends_on:
+      - frontend
+      - api
+      - phpmyadmin
+    environment:
+      - VIRTUAL_HOST=eva.com,www.eva.com
+  
+  nginx-proxy:
+    image: jwilder/nginx-proxy
+    container_name: nginx-proxy-api
+    ports:
+      - 80:80
+    volumes:
+      - /var/run/docker.sock:/tmp/docker.sock:ro
+    labels:
+      - com.github.jrcs.letsencrypt_nginx_proxy_companion.nginx_proxy
+
+volumes:
+  mysql:

@@ -1,0 +1,331 @@
+openapi: 3.0.0
+paths:
+  /coodinator/career:
+    get:
+      summary: Información de la carrera.
+      description: Obtiene la información de la carrera, mediante el email.
+      tags:
+        - Coodinator
+      parameters:
+        - in: query
+          name: email
+          schema:
+            type: string
+          required: true
+          description: Email del coordinador.
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    description: Codigo de respuesta.
+                  messageCode:
+                    type: string
+                    description: Codigo de respuesta en mensaje.
+                  data:
+                    type: array
+                    items:
+                      career:
+                      type: object
+                      properties:
+                        id:
+                          type: integer
+                          description: Id de la carrera.
+                        name:
+                          type: string
+                          description: Nombre de la carrera.
+                        shortName:
+                          type: integer
+                          description: Id de la facultad.
+                        email:
+                          type: string
+                          description: Nombre de la facultad.
+                  message:
+                    type: string
+                    description: Mensaje de respuesta.
+        '500':
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    description: Codigo de respuesta.
+                  messageCode:
+                    type: string
+                    description: Codigo de respuesta en mensaje.
+                  data:
+                    type: object
+                  message:
+                    type: string
+                    description: Mensaje de respuesta.
+  /coodinator/general:
+    get:
+      summary: Información general de la carrera.
+      description: Obtiene la información general de la carrera, mediante el id, para obtener el numero de periodos, maestros y materia.
+      tags:
+        - Coodinator
+      parameters:
+        - in: query
+          name: careerId
+          schema:
+            type: integer
+          required: true
+          description: Id de la carrera.
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    description: Codigo de respuesta.
+                  messageCode:
+                    type: string
+                    description: Codigo de respuesta en mensaje.
+                  data:
+                    type: object
+                    properties:
+                      periods:
+                        type: integer
+                        description: Numero de periodos.
+                      teachers:
+                        type: integer
+                        description: Numero de maestros.
+                      subjects:
+                        type: integer
+                        description: Numero de materias.
+                  message:
+                    type: string
+                    description: Mensaje de respuesta.
+        '500':
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    description: Codigo de respuesta.
+                  messageCode:
+                    type: string
+                    description: Codigo de respuesta en mensaje.
+                  data:
+                    type: object
+                  message:
+                    type: string
+                    description: Mensaje de respuesta.
+  /coodinator/teacher:
+    get:
+      summary: Obtiene la lista de los profesores, con sus grupos y materias.
+      description: Obtiene la lista de los profesores, con sus datos por grupo y materia.
+      tags:
+        - Coodinator
+      parameters:
+        - in: query
+          name: period
+          schema:
+            type: integer
+          required: true
+          description: Numero del periodo.
+        - in: query
+          name: careerId
+          schema:
+            type: integer
+          required: true
+          description: Id de la carrera.
+        - in: query
+          name: showMore
+          schema:
+            type: integer
+          required: true
+          description: 1 para mostrar las prguntas y sus promedio y 0 para no mostralos.
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    description: Codigo de respuesta.
+                  messageCode:
+                    type: string
+                    description: Codigo de respuesta en mensaje.
+                  data:
+                    type: object
+                    properties:
+                      teachers:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            teacherKey:
+                              type: integer
+                              description: Clave del profesor.
+                            name:
+                              type: string
+                              description: Nombre del profesor.
+                            groups:
+                              type: array
+                              items:
+                                type: object
+                                properties:
+                                  groupId:
+                                    type: integer
+                                    description: Id del grupo.
+                                  groupKey:
+                                    type: string
+                                    description: Clave del grupo.
+                                  subject:
+                                    type: string
+                                    description: Nombre de la materia.
+                                  subjectKey:
+                                    type: string
+                                    description: Clave de la materia.
+                                  averageGroup:
+                                    type: number
+                                    description: Promedio de la materia en el grupo.
+                                  totalStudents:
+                                    type: integer
+                                    description: Total de estudiantes en el grupo.
+                                  totalStudentsSurveyed:
+                                    type: integer
+                                    description: Total de estudiantes encuestados en el grupo.
+                                  questions:
+                                    type: array
+                                    items:
+                                      type: object
+                                      properties:
+                                        question:
+                                          type: string
+                                          description: Pregunta.
+                                        average:
+                                          type: number
+                                          description: Promedio de la pregunta.
+                  message:
+                    type: string
+                    description: Mensaje de respuesta.        
+        '500':
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    description: Codigo de respuesta.
+                  messageCode:
+                    type: string
+                    description: Codigo de respuesta en mensaje.
+                  data:
+                    type: object
+                  message:
+                    type: string
+                    description: Mensaje de respuesta.
+  /coodinator/student:
+    get:
+      summary: Obtiene la lista de los estudiantes, con sus grupos y materias.
+      description: Obtiene la lista de los estudiantes con su datos, status de sus encuestas por periodo y con sus datos por grupo y materia.
+      tags:
+        - Coodinator
+      parameters:
+        - in: query
+          name: careerId
+          schema:
+            type: integer
+          required: true
+          description: Id de la carrera.
+        - in: query
+          name: period
+          schema:
+            type: integer
+          required: true
+          description: Numero del periodo.
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    description: Codigo de respuesta.
+                  messageCode:
+                    type: string
+                    description: Codigo de respuesta en mensaje.
+                  data:
+                    type: object
+                    properties:
+                      groups:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            groupKey:
+                              type: string
+                              description: Clave del grupo.
+                            groupId:
+                              type: integer
+                              description: Id del grupo.
+                            courseId:
+                              type: integer
+                              description: Id del curso.
+                            totalStudents:
+                              type: integer
+                              description: Total de estudiantes en el grupo.
+                            totalStudentsNotSurveyed:
+                              type: integer
+                              description: Total de estudiantes no encuestados en el grupo.
+                            totalStudentsSurveyed:
+                              type: integer
+                              description: Total de estudiantes encuestados en el grupo.
+                            students:
+                              type: array
+                              items:
+                                type: object
+                                properties:
+                                  matricula:
+                                    type: integer
+                                    description: Matricula del estudiante.
+                                  name: 
+                                    type: string
+                                    description: Nombre del estudiante.
+                                  lastName:
+                                    type: string
+                                    description: Apellido del estudiante.
+                                  secondLastName:
+                                    type: string
+                                    description: Segundo apellido del estudiante.
+                                  status:
+                                    type: integer
+                                    description: Status de la encuesta.
+                  message:
+                    type: string
+                    description: Mensaje de respuesta.
+        '500':
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    description: Codigo de respuesta.
+                  messageCode:
+                    type: string
+                    description: Codigo de respuesta en mensaje.
+                  data:
+                    type: object
+                  message:
+                    type: string
+                    description: Mensaje de respuesta.

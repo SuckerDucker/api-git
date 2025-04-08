@@ -1,0 +1,16 @@
+build
+uploads
+docker
+
+node_modules
+yarn-error.log
+package-lock.json
+
+.git
+.husky
+.github
+.env.example
+.env
+.env.test
+.env.development
+.env.production

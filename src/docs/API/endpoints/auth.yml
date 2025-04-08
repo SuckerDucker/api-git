@@ -1,0 +1,125 @@
+openapi: 3.0.0
+paths:
+  /auth/login:
+    post:
+      summary: Iniciar sesión.
+      description: Inicia sesión con el usuario y contraseña proporcionados.
+      tags:
+        - Auth
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  description: Nombre del usuario
+                email:
+                  type: string
+                  description: Correo electrónico del usuario
+                user: 
+                  type: string
+                  description: username del usuario
+                password:
+                  type: string
+                  description: Contraseña del usuario
+                imageUrl:
+                  type: string
+                  description: URL de la imagen del usuario
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                properties:
+                  code:
+                    type: integer
+                    description: Código de respuesta.
+                  messageCode: 
+                    type: string
+                    description: Código de mensaje.
+                  data:
+                    type: object
+                    properties:
+                      token:
+                        type: string
+                        description: Token de sesión
+                  message:
+                    type: string
+                    description: Mensaje de respuesta.
+        '500':
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    description: Codigo de respuesta.
+                  messageCode:
+                    type: string
+                    description: Codigo de respuesta en mensaje.
+                  data:
+                    type: object
+                  message:
+                    type: string
+                    description: Mensaje de respuesta.
+  /auth/signup:
+    post:
+      summary: Registrar un administrador.
+      description: Registra un administrador con los datos proporcionados.
+      tags:
+        - Auth
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                  description: Username del administrador
+                password:
+                  type: string
+                  description: Contraseña del administrador
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                properties:
+                  code:
+                    type: integer
+                    description: Código de respuesta.
+                  messageCode: 
+                    type: string
+                    description: Código de mensaje.
+                  data:
+                    type: object
+                    properties:
+                      user:
+                        type: string
+                        description: Username del administrador
+                  message:
+                    type: string
+                    description: Mensaje de respuesta.
+        '500':
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    description: Codigo de respuesta.
+                  messageCode:
+                    type: string
+                    description: Codigo de respuesta en mensaje.
+                  data:
+                    type: object
+                  message:
+                    type: string
+                    description: Mensaje de respuesta.

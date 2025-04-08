@@ -1,0 +1,15 @@
+export { Admin } from './Admin';
+export { Answer } from './Answer';
+export { Career } from './Career';
+export { Course } from './Course';
+export { CourseComment } from './CourseComment';
+export { CourseHasAlumno } from './CourseHasStudent';
+export { CuestionarioAlumnoDocente } from './CuestionarioAlumnoDocente';
+export { Encuesta } from './Encuesta';
+export { Group } from './Group';
+export { Period } from './Period';
+export { Question } from './Question';
+export { Student } from './Student';
+export { Subject } from './Subject';
+export { Teacher } from './Teacher';
+export { TypeTeacher } from './TypeTeacher';

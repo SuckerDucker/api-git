@@ -1,0 +1,294 @@
+openapi: 3.0.0
+paths:
+  /period:
+    post:
+      summary: Crear nuevo periodo.
+      description: Crea un nuevo periodo con la información proporcionada.
+      tags:
+        - Period
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                period:
+                  type: integer
+                  length: 4
+                  description: Número de periodo, en el formato del SIE, por ejemplo 3232.
+                  required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    description: Codigo de respuesta.
+                  messageCode:
+                    type: string
+                    description: Codigo de respuesta en mensaje.
+                  data:
+                    type: object
+                    properties:
+                      period:
+                        type: object
+                        properties:
+                          period:
+                            type: integer
+                            description: Retorna el número del periodo.
+                          name:
+                            type: string
+                            description: Retorna el nombre del periodo.
+                          state:
+                            type: string
+                            description: Retorna el estado del periodo.
+                  message:
+                    type: string
+                    description: Mensaje de respuesta.
+        '500':
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    description: Codigo de respuesta.
+                  messageCode:
+                    type: string
+                    description: Codigo de respuesta en mensaje.
+                  data:
+                    type: object
+                  message:
+                    type: string
+                    description: Mensaje de respuesta.
+    get:
+      summary: Lista de periodos.
+      description: Lista todos los periodos registrados.
+      tags:
+        - Period
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    description: Codigo de respuesta.
+                  messageCode:
+                    type: string
+                    description: Codigo de respuesta en mensaje.
+                  data:
+                    type: object
+                    properties:
+                      periods:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            period:
+                              type: integer
+                              description: Retorna el número del periodo.
+                            name:
+                              type: string
+                              description: Retorna el nombre del periodo.
+                            state:
+                              type: string
+                              description: Retorna el estado del periodo.
+                  message:
+                    type: string
+                    description: Mensaje de respuesta.
+        '500':
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    description: Codigo de respuesta.
+                  messageCode:
+                    type: string
+                    description: Codigo de respuesta en mensaje.
+                  data:
+                    type: object
+                  message:
+                    type: string
+                    description: Mensaje de respuesta.
+    put:
+      summary: Cambiar estado del periodo.
+      description: Cambia el estado de un periodo.
+      tags:
+        - Period
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                period:
+                  type: integer
+                  length: 4
+                  description: Número de periodo, en el formato del SIE, por ejemplo 3232.
+                  required: true
+                status:
+                  type: integer
+                  description: Estado del periodo, puede ser 'activo', 'inactivo'.
+                  required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: string
+                    description: Codigo de respuesta.
+                  messageCode:
+                    type: string
+                    description: Codigo de respuesta en mensaje.
+                  data:
+                    type: object
+                    properties:
+                      period:
+                        type: object
+                        properties:
+                          period:
+                            type: integer
+                            description: Retorna el número del periodo.
+                          name:
+                            type: string
+                            description: Retorna el nombre del periodo.
+                          state:
+                            type: string
+                            description: Retorna el estado del periodo.
+                  message:
+                    type: string
+                    description: Mensaje de respuesta.
+        '500':
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    description: Codigo de respuesta.
+                  messageCode:
+                    type: string
+                    description: Codigo de respuesta en mensaje.
+                  data:
+                    type: object
+                  message:
+                    type: string
+                    description: Mensaje de respuesta.
+    delete:
+      summary: Eliminar un periodo.
+      description: Elimina todos los datos del periodo proporcionado, respuestas, encuestas y cursos.
+      tags:
+        - Period
+      parameters:
+        - in: query
+          name: period
+          schema:
+            type: string
+          length: 4
+          required: true
+          description: Número de periodo, en el formato del SIE, por ejemplo 3232.
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    description: Codigo de respuesta.
+                  messageCode:
+                    type: string
+                    description: Codigo de respuesta en mensaje.
+                  data:
+                    type: object
+                  message:
+                    type: string
+                    description: Mensaje de respuesta.
+        '500':
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    description: Codigo de respuesta.
+                  messageCode:
+                    type: string
+                    description: Codigo de respuesta en mensaje.
+                  data:
+                    type: object
+                  message:
+                    type: string
+                    description: Mensaje de respuesta.
+  /period/current:
+    get:
+      summary: Obtener periodo actual.
+      description: Obtiene el periodo actual.
+      tags:
+        - Period
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: string
+                    description: Codigo de respuesta.
+                  messageCode:
+                    type: string
+                    description: Codigo de respuesta en mensaje.
+                  data:
+                    type: object
+                    properties:
+                      period:
+                        type: object
+                        properties:
+                          period:
+                            type: integer
+                            description: Retorna el número del periodo.
+                          name:
+                            type: string
+                            description: Retorna el nombre del periodo.
+                          state:
+                            type: string
+                            description: Retorna el estado del periodo.
+                  message:
+                    type: string
+                    description: Mensaje de respuesta.
+        '500':
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    description: Codigo de respuesta.
+                  messageCode:
+                    type: string
+                    description: Codigo de respuesta en mensaje.
+                  data:
+                    type: object
+                  message:
+                    type: string
+                    description: Mensaje de respuesta.
